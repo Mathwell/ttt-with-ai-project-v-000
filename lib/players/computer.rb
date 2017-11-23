@@ -5,7 +5,6 @@ module Players
 
     @player
 
-
     def move(board)
       if board.turn_count==0
         index=board.possible_moves[rand(board.possible_moves.count-1)]
@@ -62,11 +61,5 @@ module Players
 
   end
 end
-
-    def move(board)
-      index=rand(9)
-      return index.to_s if board.valid_move?(index)
-    end
-  end
 
 end
