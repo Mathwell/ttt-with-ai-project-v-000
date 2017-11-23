@@ -56,7 +56,7 @@ module Players
       best_move=moves.sort_by{|key, value| value}.first[0][0]
       score=moves.sort_by{|key, value| value}.first
     end
-    puts "Best move: #{best_move} move score:#{score} player:#{@player}"
+    puts "Best move: #{best_move} move score:#{score[1]} player:#{@player}"
     best_move
 
   end
