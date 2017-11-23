@@ -46,6 +46,7 @@ class Game
         @board.update(index, current_player)
         @board.display
       else
+        puts "This turn is not allowed!"
         turn
       end
   end
@@ -60,7 +61,7 @@ class Game
     if won?
        puts "Congratulations #{winner}!"
        puts "Your score: #{score}"
-       puts "Possibe moves: #{possible_moves}"
+       puts "Possibe moves: #{@board.possible_moves}"
 
      end
 
@@ -69,17 +70,7 @@ class Game
      end
   end
 
-  def possible_moves
-    pm=[]
-    @board.cells.each_with_index do |p, i|
-      if p == " " || p == ""
-        pm.push(i+1).to_s
-      end
-    end
-    pm
-    #pm=@board.cells.map.with_index(1).to_a.select{|c,i| i if c==" " or c=="" }
-    #pm.flatten.select{|i| i!=" "}
-  end
+
 
 end
 

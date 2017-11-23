@@ -1,61 +1,56 @@
 module Players
   class Computer<Player
-    #@moves=[]
-    #@scores=[]
+    attr_accessor :scores, :player, :last_move
+
+    @player
 
 
     def move(board)
-      #index=rand(9)
-      @temp_board=Board.new(board.cells)
-      index=minimax(@temp_board)
-      puts "Please enter 1-9: #{index}"
-      return index.to_s if board.valid_move?(index)
+      if board.turn_count==0
+        index=board.possible_moves[rand(board.possible_moves.count-1)]
+        puts "First move: #{index}"
+        return index.to_s
+      else
+        index=board.possible_moves[rand(board.possible_moves.count-1)]
+        if board.turn_count%2==0
+          @player="X"
+        else
+          @player="O"
+        end
+        @scores=[]
+        best_move=minimax(board)
+        puts "Best move: #{best_move}"
+        index=best_move unless best_move==nil
+        puts "Please enter 1-9: #{index}"
+        return index.to_s #if board.valid_move?(index)
+      end
     end
 
     def minimax(board)
-      game_analysis=Game.new(Players::Computer.new("X"), Players::Computer.new("O"), @temp_board)
-      game_analysis_possible_moves=game_analysis.possible_moves
+      new_board=[]
+      board.cells.each {|c| new_board<<c}
+      temp_board=Board.new(new_board)
+      temp_game=Game.new(Players::Computer.new("X"), Players::Computer.new("O"), temp_board)
+      temp_possible_moves=temp_game.board.possible_moves
       #game_analysis_possible_moves[0]
-      scores=[]
-      game_analysis_possible_moves.each do |move|
-        game_analysis.board.update(move,game_analysis.current_player) unless game_analysis.over?
-        puts "Score: #{game_analysis.score}" if game_analysis.score
-        scores<<game_analysis.score if game_analysis.score
+      #scores=[]
+      temp_possible_moves.each do |m|
+        if !temp_game.over?
+          temp_game.board.update(m,temp_game.current_player)
+          #if temp_game.over? @last_move=m
+          minimax(temp_game.board)
+        else
+          puts "Score: #{temp_game.score} move: #{m}" if temp_game.score
+          @scores<<temp_game.score if temp_game.score
+        end
       end
-      puts "All scores: #{scores}"
-      game_analysis_possible_moves[0]
-      #return score if over?
-      #scores = [] # an array of scores
-      #moves = []  # an array of moves
-      #prospective_board=board
-      #prospective_current=current_player
-
-     # Populate the scores array, recursing as needed
-     #prospective_board.cells.each_with_index{|m,i| (i+1).to_s if m==" "}.each do |move|
-     #    possible_game = prospective_board.update(move, prospective_current)
-     #    if prospective_current==@player_1
-     #      prospective_current=@player_2
-     #    else
-     #      prospective_current=@player_1
-     #    end
-     #    scores.push minimax(prospective_board)
-     #    moves.push move
-     #  end
-
-     # Do the min or the max calculation
-     #  if current_player.token == "X"
-         # This is the max calculation
-     #      max_score_index = scores.each_with_index.max[1]+1
-     #      return max_score_index.to_s
-         #@choice = moves[max_score_index]
-         #return scores[max_score_index]
-     #  else
-         # This is the min calculation
-     #      min_score_index = scores.each_with_index.min[1]+1
-     #      return min_score_index.to_s
-         #@choice = moves[min_score_index]
-         #return scores[min_score_index]
-     #  end
+      #puts "All scores: #{scores} player #{@player}"
+      if @player=="X"
+        return best_move=temp_possible_moves[@scores.find_index(10)] if @scores.include?(10)
+      else
+        return best_move=temp_possible_moves[@scores.find_index(-10)] if @scores.include?(-10)
+      end
+      nil
 
     end
   end
