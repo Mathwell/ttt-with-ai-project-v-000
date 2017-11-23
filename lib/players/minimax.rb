@@ -12,5 +12,5 @@ module MiniMax
         end
     end
   end
-    
+
 end
