@@ -5,6 +5,16 @@ module MiniMax
     elsif won? and winner=="O"
         return -10
     else
+
+        if draw?
+          return 0
+        else
+          return nil
+        end
+    end
+  end
+
+
         return 0
     end
   end
@@ -31,16 +41,17 @@ module MiniMax
     # Do the min or the max calculation
     if current_player.token == "X"
         # This is the max calculation
-        max_score_index = scores.each_with_index.max[1]+1
+        max_score_index = scores.each_with_index.max[1]
         return max_score_index.to_s
         #@choice = moves[max_score_index]
         #return scores[max_score_index]
     else
         # This is the min calculation
-        min_score_index = scores.each_with_index.min[1]+1
+        min_score_index = scores.each_with_index.min[1]
         return min_score_index.to_s
         #@choice = moves[min_score_index]
         #return scores[min_score_index]
     end
 end
+
 end
