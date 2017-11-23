@@ -42,7 +42,7 @@ class Board
   end
 
   def update(index, player)
-      @cells[position(index).to_i] = player.token if valid_move?(index)
+      @cells[index.to_i-1] = player.token if valid_move?(index)
   end
 
 end

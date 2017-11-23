@@ -49,4 +49,22 @@ class Game
       end
   end
 
+  def play
+    puts "Welcome to Tic Tac Toe!"
+    @board.display
+    until over? do
+      turn
+    end
+
+    if won?
+       puts "Congratulations #{winner}!"
+     end
+
+     if draw?
+       puts "Cat's Game!"
+     end
+  end
+
 end
+
+Game.new.play
